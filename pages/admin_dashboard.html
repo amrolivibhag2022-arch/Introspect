@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Introspect - Admin Dashboard
+</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../css/style.css">
+
+
+</head>
+
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+
+<header class="dashboard-header">
+
+
+<div class="dashboard-logo">
+
+<h2>
+Introspect
+</h2>
+
+
+<span>
+Admin Panel
+</span>
+
+
+</div>
+
+
+
+<div class="profile-area">
+
+
+<span>
+Welcome,
+<span id="usernameDisplay">
+Admin
+</span>
+
+|
+
+<span id="roleDisplay">
+Admin
+</span>
+
+</span>
+
+
+
+<button class="menu-toggle">
+
+☰
+
+</button>
+
+
+
+<button id="logoutBtn" class="login-submit">
+
+Logout
+
+</button>
+
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+
+<div class="dashboard-layout">
+
+
+
+<aside class="dashboard-sidebar">
+
+
+<nav>
+
+
+<a href="#">
+Dashboard
+</a>
+
+
+<a href="#">
+User Management
+</a>
+
+
+<a href="#">
+Reports
+</a>
+
+
+<a href="#">
+System Activity
+</a>
+
+
+<a href="#">
+Settings
+</a>
+
+
+</nav>
+
+
+</aside>
+
+
+
+
+
+
+
+<main class="dashboard-content">
+
+
+
+<section class="welcome-section">
+
+
+<h1>
+Admin Dashboard 👋
+</h1>
+
+
+<p>
+Manage system activities and monitor progress.
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+<section class="dashboard-cards">
+
+
+
+<div class="dashboard-card">
+
+
+<h3>
+Total Users
+</h3>
+
+
+<p>
+Manage registered users.
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="dashboard-card">
+
+
+<h3>
+Reports
+</h3>
+
+
+<p>
+View system analytics.
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="dashboard-card">
+
+
+<h3>
+Activity Logs
+</h3>
+
+
+<p>
+Monitor user activities.
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<section class="activity-panel">
+
+
+<h2>
+Recent System Activity
+</h2>
+
+
+<p>
+No activity records available yet.
+</p>
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+</div>
+
+
+
+
+
+
+
+<footer class="dashboard-footer">
+
+
+<p>
+Introspect v0.01
+</p>
+
+
+</footer>
+
+
+
+
+
+</div>
+
+
+
+
+
+<script src="../js/modules/session.js"></script>
+
+<script src="../js/routing.js"></script>
+
+<script src="../js/dashboard.js"></script>
+
+
+
+<script>
+
+AppRouter.protectPage("admin");
+
+</script>
+
+
+
+</body>
+
+</html>
