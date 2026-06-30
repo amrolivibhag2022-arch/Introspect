@@ -9,7 +9,7 @@
 
 
 <title>
-Introspect - User Dashboard
+Introspect - Self Reflection
 </title>
 
 
@@ -20,7 +20,6 @@ Introspect - User Dashboard
 
 
 </head>
-
 
 
 <body>
@@ -35,14 +34,13 @@ Introspect - User Dashboard
 
 <div class="dashboard-logo">
 
-
 <h2>
 Introspect
 </h2>
 
 
 <span>
-User Panel
+Self Reflection
 </span>
 
 
@@ -51,33 +49,17 @@ User Panel
 
 
 
-
 <div class="profile-area">
 
 
 <span>
-
 Welcome,
 
 <span id="usernameDisplay">
 User
 </span>
 
-|
-
-<span id="roleDisplay">
-User
 </span>
-
-</span>
-
-
-
-<button class="menu-toggle">
-
-☰
-
-</button>
 
 
 
@@ -86,7 +68,6 @@ User
 Logout
 
 </button>
-
 
 
 </div>
@@ -99,56 +80,7 @@ Logout
 
 
 
-
-
 <div class="dashboard-layout">
-
-
-
-<aside class="dashboard-sidebar">
-
-
-<nav>
-
-
-<a href="#">
-Dashboard
-</a>
-
-
-<a href="#">
-Profile
-</a>
-
-
-<a href="reflection.html">
-Self Reflection
-</a>
-
-
-<a href="#">
-Progress
-</a>
-
-
-<a href="#">
-Reports
-</a>
-
-
-<a href="#">
-Settings
-</a>
-
-
-</nav>
-
-
-</aside>
-
-
-
-
 
 
 
@@ -160,12 +92,12 @@ Settings
 
 
 <h1>
-User Dashboard 👋
+Self Reflection 🧠
 </h1>
 
 
 <p>
-Continue your self reflection journey and track your growth.
+Write your thoughts, learning and personal insights.
 </p>
 
 
@@ -175,64 +107,86 @@ Continue your self reflection journey and track your growth.
 
 
 
+<section class="dashboard-card reflection-form">
 
-
-<section class="dashboard-cards">
-
-
-
-<div class="dashboard-card">
 
 
 <h3>
-Personal Progress
+Today's Reflection
 </h3>
 
 
-<p>
-Track your development journey.
+
+<label>
+Reflection Question
+</label>
+
+
+<p id="reflectionQuestion">
+
+What did you learn today?
+
 </p>
 
 
-</div>
+
+
+<label>
+Your Thoughts
+</label>
+
+
+<textarea 
+id="reflectionText"
+rows="6"
+placeholder="Write your reflection here..."
+></textarea>
 
 
 
 
 
-<a href="reflection.html" class="dashboard-card">
+<label>
+Your Mood
+</label>
 
 
-<h3>
-Reflection Journal
-</h3>
+<select id="reflectionMood">
 
 
-<p>
-Record your thoughts and insights.
-</p>
+<option value="Excellent">
+Excellent 😊
+</option>
 
 
-</a>
+<option value="Good">
+Good 🙂
+</option>
+
+
+<option value="Average">
+Average 😐
+</option>
+
+
+<option value="Difficult">
+Difficult 😔
+</option>
+
+
+</select>
 
 
 
 
 
-<div class="dashboard-card">
+<button 
+class="login-submit"
+onclick="saveReflection()">
 
+Save Reflection
 
-<h3>
-Reports
-</h3>
-
-
-<p>
-Analyze your personal progress.
-</p>
-
-
-</div>
+</button>
 
 
 
@@ -248,13 +202,17 @@ Analyze your personal progress.
 
 
 <h2>
-Recent Activity
+Previous Reflections
 </h2>
 
 
+<div id="reflectionList">
+
 <p>
-No activities available yet.
+No reflections available.
 </p>
+
+</div>
 
 
 </section>
@@ -262,13 +220,12 @@ No activities available yet.
 
 
 
+
+
 </main>
 
 
-
 </div>
-
-
 
 
 
@@ -286,8 +243,6 @@ Introspect v0.01
 
 
 
-
-
 </div>
 
 
@@ -296,20 +251,26 @@ Introspect v0.01
 
 <script src="../js/modules/session.js"></script>
 
-<script src="../js/routing.js"></script>
-
-<script src="../js/dashboard.js"></script>
+<script src="../js/reflection.js"></script>
 
 
 
 <script>
 
-AppRouter.protectPage("user");
+
+document.getElementById("logoutBtn")
+.onclick=function(){
+
+Session.logout();
+
+};
+
 
 </script>
 
 
 
 </body>
+
 
 </html>
