@@ -9,7 +9,7 @@
 
 
 <title>
-Introspect - User Dashboard
+Introspect - Profile
 </title>
 
 
@@ -22,12 +22,10 @@ Introspect - User Dashboard
 </head>
 
 
-
 <body>
 
 
 <div class="dashboard-container">
-
 
 
 <header class="dashboard-header">
@@ -35,20 +33,15 @@ Introspect - User Dashboard
 
 <div class="dashboard-logo">
 
-
 <h2>
 Introspect
 </h2>
 
-
 <span>
-User Panel
+User Profile
 </span>
 
-
 </div>
-
-
 
 
 
@@ -73,14 +66,6 @@ User
 
 
 
-<button class="menu-toggle">
-
-☰
-
-</button>
-
-
-
 <button id="logoutBtn" class="login-submit">
 
 Logout
@@ -88,14 +73,10 @@ Logout
 </button>
 
 
-
 </div>
 
 
-
 </header>
-
-
 
 
 
@@ -111,13 +92,13 @@ Logout
 <nav>
 
 
-<a href="#">
+<a href="user_dashboard.html">
 Dashboard
 </a>
 
 
 <a href="profile.html">
-    Profile
+Profile
 </a>
 
 
@@ -160,12 +141,12 @@ Settings
 
 
 <h1>
-User Dashboard 👋
+My Profile 👤
 </h1>
 
 
 <p>
-Continue your self reflection journey and track your growth.
+Manage your personal information and growth identity.
 </p>
 
 
@@ -177,22 +158,41 @@ Continue your self reflection journey and track your growth.
 
 
 
-<section class="dashboard-cards">
-
-
-
-<div class="dashboard-card">
+<section class="dashboard-card profile-card">
 
 
 <h3>
-Personal Progress
+Personal Information
 </h3>
 
 
-<p>
-Track your development journey.
-</p>
 
+<div class="input-group">
+
+<label>
+Username
+</label>
+
+<input 
+type="text"
+id="username"
+readonly>
+
+</div>
+
+
+
+
+<div class="input-group">
+
+<label>
+Role
+</label>
+
+<input 
+type="text"
+id="role"
+readonly>
 
 </div>
 
@@ -200,61 +200,78 @@ Track your development journey.
 
 
 
-<a href="reflection.html" class="dashboard-card">
+<div class="input-group">
 
+<label>
+Name
+</label>
 
-<h3>
-Reflection Journal
-</h3>
+<input 
+type="text"
+id="name"
+placeholder="Enter your name">
 
-
-<p>
-Record your thoughts and insights.
-</p>
-
-
-</a>
-
-
-
-
-
-<a href="reflection.html" class="dashboard-card">
-
-
-<h3>
-Reports
-</h3>
-
-
-<p>
-Analyze your personal progress.
-</p>
-
-
-</a>
-
-
-
-</section>
+</div>
 
 
 
 
 
+<div class="input-group">
+
+<label>
+Email
+</label>
+
+<input 
+type="email"
+id="email"
+placeholder="Enter your email">
+
+</div>
 
 
-<section class="activity-panel">
 
 
-<h2>
-Recent Activity
-</h2>
+
+<div class="input-group">
+
+<label>
+Bio
+</label>
+
+<textarea
+id="bio"
+rows="5"
+placeholder="Write something about yourself">
+</textarea>
+
+</div>
 
 
-<p>
-No activities available yet.
-</p>
+<div class="input-group">
+
+    <label>
+        Personal Goals
+    </label>
+
+    <textarea
+        id="goals"
+        rows="5"
+        placeholder="Describe your personal goals and aspirations">
+    </textarea>
+
+</div>
+
+
+<button 
+id="saveProfileBtn"
+class="login-submit">
+
+Save Profile
+
+</button>
+
 
 
 </section>
@@ -286,8 +303,6 @@ Introspect v0.01
 
 
 
-
-
 </div>
 
 
@@ -296,9 +311,9 @@ Introspect v0.01
 
 <script src="../js/modules/session.js"></script>
 
-<script src="../js/routing.js"></script>
+<script src="../js/profile.js"></script>
 
-<script src="../js/dashboard.js"></script>
+<script src="../js/routing.js"></script>
 
 
 
