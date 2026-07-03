@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Introspect - Progress
+
+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<header class="dashboard-header">
+
+<div class="dashboard-logo">
+
+<h2>
+
+Introspect
+
+</h2>
+
+<span>
+
+Progress
+
+</span>
+
+</div>
+
+<div class="profile-area">
+
+<span>
+
+Welcome,
+
+<span id="usernameDisplay">
+
+User
+
+</span>
+
+|
+
+<span id="roleDisplay">
+
+User
+
+</span>
+
+</span>
+
+<button
+id="logoutBtn"
+class="login-submit">
+
+Logout
+
+</button>
+
+</div>
+
+</header>
+
+<div class="dashboard-layout">
+
+<aside class="dashboard-sidebar">
+
+<nav>
+
+<a href="user_dashboard.html">
+
+Dashboard
+
+</a>
+
+<a href="profile.html">
+
+Profile
+
+</a>
+
+<a href="reflection.html">
+
+Self Reflection
+
+</a>
+
+<a href="progress.html">
+
+Progress
+
+</a>
+
+<a href="#">
+
+Reports
+
+</a>
+
+<a href="#">
+
+Settings
+
+</a>
+
+</nav>
+
+</aside>
+
+<main class="dashboard-content">
+
+    <section class="progress-welcome">
+
+        <h1>
+            Your Progress
+        </h1>
+
+        <p>
+            Track your reflection journey and monitor your personal growth over time.
+        </p>
+
+    </section>
+
+    <section class="progress-statistics">
+
+    <div class="dashboard-card">
+
+        <h3>Total Reflections</h3>
+
+        <p id="totalReflections">--</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>Latest Reflection</h3>
+
+        <p id="latestReflection">--</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>Profile Completion</h3>
+
+        <p id="profileCompletion">--%</p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h3>Application Version</h3>
+
+        <p id="appVersion">v0.01</p>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<footer class="dashboard-footer">
+
+<p>
+
+Introspect v0.01
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="../js/modules/session.js"></script>
+
+<script src="../js/routing.js"></script>
+
+<script src="../js/progress.js"></script>
+
+<script>
+
+AppRouter.protectPage("user");
+
+</script>
+
+</body>
+
+</html>

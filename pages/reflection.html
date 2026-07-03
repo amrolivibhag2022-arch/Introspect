@@ -2,275 +2,108 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-Introspect - Self Reflection
-</title>
-
+<title>Introspect - Self Reflection</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
 <link rel="stylesheet" href="../css/style.css">
-
-
 </head>
-
 
 <body>
 
-
 <div class="dashboard-container">
-
-
 
 <header class="dashboard-header">
 
+    <div class="dashboard-logo">
+        <h2>Introspect</h2>
+        <span>Self Reflection</span>
+    </div>
 
-<div class="dashboard-logo">
+    <div class="profile-area">
+        <span>Welcome, <span id="usernameDisplay">User</span></span>
 
-<h2>
-Introspect
-</h2>
-
-
-<span>
-Self Reflection
-</span>
-
-
-</div>
-
-
-
-
-<div class="profile-area">
-
-
-<span>
-Welcome,
-
-<span id="usernameDisplay">
-User
-</span>
-
-</span>
-
-
-
-<button id="logoutBtn" class="login-submit">
-
-Logout
-
-</button>
-
-
-</div>
-
-
+        <button id="logoutBtn" class="login-submit">Logout</button>
+    </div>
 
 </header>
 
-
-
-
-
 <div class="dashboard-layout">
 
+    <aside class="dashboard-sidebar">
+        <nav>
 
+            <a href="user_dashboard.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+            <a href="reflection.html">Self Reflection</a>
+            <a href="progress.html">Progress</a>
+            <a href="#">Reports</a>
+            <a href="#">Settings</a>
 
-<main class="dashboard-content">
+        </nav>
+    </aside>
 
+    <main class="dashboard-content">
 
+        <section class="welcome-section">
+            <h1>Self Reflection 🧠</h1>
+            <p>Write your thoughts, learning and personal insights.</p>
+        </section>
 
-<section class="welcome-section">
+        <section class="dashboard-card reflection-form">
 
+            <h3>Today's Reflection</h3>
 
-<h1>
-Self Reflection 🧠
-</h1>
+            <label>Reflection Question</label>
+            <p id="reflectionQuestion">What did you learn today?</p>
 
+            <label>Your Thoughts</label>
+            <textarea id="reflectionText" rows="6" placeholder="Write your reflection here..."></textarea>
 
-<p>
-Write your thoughts, learning and personal insights.
-</p>
+            <label>Your Mood</label>
+            <select id="reflectionMood">
+                <option value="Excellent">Excellent 😊</option>
+                <option value="Good">Good 🙂</option>
+                <option value="Average">Average 😐</option>
+                <option value="Difficult">Difficult 😔</option>
+            </select>
 
+            <button class="login-submit" onclick="saveReflection()">
+                Save Reflection
+            </button>
 
-</section>
+        </section>
 
+        <section class="activity-panel">
 
+            <h2>Previous Reflections</h2>
 
+            <div id="reflectionList">
+                <p>No reflections available.</p>
+            </div>
 
+        </section>
 
-<section class="dashboard-card reflection-form">
-
-
-
-<h3>
-Today's Reflection
-</h3>
-
-
-
-<label>
-Reflection Question
-</label>
-
-
-<p id="reflectionQuestion">
-
-What did you learn today?
-
-</p>
-
-
-
-
-<label>
-Your Thoughts
-</label>
-
-
-<textarea 
-id="reflectionText"
-rows="6"
-placeholder="Write your reflection here..."
-></textarea>
-
-
-
-
-
-<label>
-Your Mood
-</label>
-
-
-<select id="reflectionMood">
-
-
-<option value="Excellent">
-Excellent 😊
-</option>
-
-
-<option value="Good">
-Good 🙂
-</option>
-
-
-<option value="Average">
-Average 😐
-</option>
-
-
-<option value="Difficult">
-Difficult 😔
-</option>
-
-
-</select>
-
-
-
-
-
-<button 
-class="login-submit"
-onclick="saveReflection()">
-
-Save Reflection
-
-</button>
-
-
-
-</section>
-
-
-
-
-
-
-
-<section class="activity-panel">
-
-
-<h2>
-Previous Reflections
-</h2>
-
-
-<div id="reflectionList">
-
-<p>
-No reflections available.
-</p>
+    </main>
 
 </div>
-
-
-</section>
-
-
-
-
-
-
-</main>
-
-
-</div>
-
-
-
-
 
 <footer class="dashboard-footer">
-
-
-<p>
-Introspect v0.01
-</p>
-
-
+    <p>Introspect v0.01</p>
 </footer>
-
-
 
 </div>
 
-
-
-
-
 <script src="../js/modules/session.js"></script>
-
 <script src="../js/reflection.js"></script>
 
-
-
 <script>
-
-
-document.getElementById("logoutBtn")
-.onclick=function(){
-
-Session.logout();
-
+document.getElementById("logoutBtn").onclick = function () {
+    Session.logout();
 };
-
-
 </script>
 
-
-
 </body>
-
-
 </html>
