@@ -42,7 +42,7 @@
             <a href="reports.html">
 Reports
 </a>
-            <a href="#">Settings</a>
+            <a href="settings.html">Settings</a>
 
         </nav>
     </aside>
@@ -105,12 +105,17 @@ Reports
 </div>
 
 <script src="../js/modules/session.js"></script>
+<script src="../js/routing.js"></script>
 <script src="../js/profile.js"></script>
 
 <script>
+
+AppRouter.protectPage("user");
+
 document.getElementById("logoutBtn").onclick = function () {
     Session.logout();
 };
+
 </script>
 
 </body>
