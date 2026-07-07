@@ -1,9 +1,22 @@
-console.log("reports.js loaded");
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    loadReports();
+    console.log("reports.js loaded");
 
+    // Display Username
+    const usernameElement = document.getElementById("usernameDisplay");
+
+    if (usernameElement) {
+        usernameElement.textContent = Session.getUsername();
+    }
+
+    // Display Role
+    const roleElement = document.getElementById("roleDisplay");
+
+    if (roleElement) {
+        roleElement.textContent = Session.getRole();
+    }
+
+    // Logout Button
     const logoutButton = document.getElementById("logoutBtn");
 
     if (logoutButton) {
@@ -16,54 +29,98 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    loadReports();
+
 });
 
 
 
 function loadReports() {
 
-    const username = Session.getUsername() || "User";
-    const role = Session.getRole() || "User";
+    loadCurrentUser();
 
-    document.getElementById("usernameDisplay").innerText = username;
-    document.getElementById("roleDisplay").innerText = role;
-    document.getElementById("currentUser").innerText = username;
+    loadReflectionCount();
 
-    const reflections = JSON.parse(
-        localStorage.getItem("introspect_reflections") || "[]"
-    );
+    loadLatestReflection();
 
-    document.getElementById("totalReflections").innerText =
-        reflections.length;
+    loadProfileCompletion();
 
-    if (reflections.length > 0) {
+}
 
-        const latestReflection =
-            reflections[reflections.length - 1];
 
-        document.getElementById("latestReflection").innerText =
-            latestReflection.date || "Available";
+
+function loadCurrentUser() {
+
+    const element =
+        document.getElementById("currentUser");
+
+    if (element) {
+
+        element.innerText =
+            Data.getCurrentUser();
 
     }
 
-    const profile = JSON.parse(
-        localStorage.getItem(
-            "introspect_profile_" + username
-        ) || "{}"
-    );
+}
 
-    let completed = 0;
 
-    if (profile.username) completed++;
-    if (profile.name) completed++;
-    if (profile.email) completed++;
-    if (profile.bio) completed++;
-    if (profile.goals) completed++;
 
-    const percentage =
-        Math.round((completed / 5) * 100);
+function loadReflectionCount() {
 
-    document.getElementById("profileCompletion").innerText =
-        percentage + "%";
+    const element =
+        document.getElementById("totalReflections");
+
+    if (element) {
+
+        element.innerText =
+            Data.getReflectionCount();
+
+    }
+
+}
+
+
+
+function loadLatestReflection() {
+
+    const element =
+        document.getElementById("latestReflection");
+
+    if (!element) {
+
+        return;
+
+    }
+
+    const latest =
+        Data.getLatestReflection();
+
+    if (!latest) {
+
+        element.innerText =
+            "No Reflections";
+
+        return;
+
+    }
+
+    element.innerText =
+        latest.date;
+
+}
+
+
+
+function loadProfileCompletion() {
+
+    const element =
+        document.getElementById("profileCompletion");
+
+    if (element) {
+
+        element.innerText =
+            Data.getProfileCompletion() + "%";
+
+    }
 
 }

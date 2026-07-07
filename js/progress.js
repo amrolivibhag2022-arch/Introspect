@@ -29,11 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("progress.js loaded");
 
-loadProgressStatistics();
+    loadProgressStatistics();
 
 });
 
-const reflectionKey = "introspect_reflections";
+
 
 function loadProgressStatistics() {
 
@@ -47,31 +47,22 @@ function loadProgressStatistics() {
 
 }
 
+
+
 function loadTotalReflections() {
 
-    const username = Session.getUsername();
-
-    const reflections =
-        JSON.parse(localStorage.getItem(reflectionKey)) || [];
-
-    const total =
-        reflections.filter(item => item.username === username).length;
-
-    document.getElementById("totalReflections").innerText = total;
+    document.getElementById("totalReflections").innerText =
+        Data.getReflectionCount();
 
 }
 
+
+
 function loadLatestReflection() {
 
-    const username = Session.getUsername();
+    const latest = Data.getLatestReflection();
 
-    const reflections =
-        JSON.parse(localStorage.getItem(reflectionKey)) || [];
-
-    const userReflections =
-        reflections.filter(item => item.username === username);
-
-    if (userReflections.length === 0) {
+    if (!latest) {
 
         document.getElementById("latestReflection").innerText =
             "No Reflections";
@@ -80,52 +71,31 @@ function loadLatestReflection() {
 
     }
 
-    const latest =
-        userReflections[userReflections.length - 1];
-
     document.getElementById("latestReflection").innerText =
         latest.date;
 
 }
 
+
+
 function loadProfileCompletion() {
 
-    const profileKey =
-        "introspect_profile_" + Session.getUsername();
-
-    const profile =
-        JSON.parse(localStorage.getItem(profileKey));
-
-    if (!profile) {
-
-        document.getElementById("profileCompletion").innerText =
-            "0%";
-
-        return;
-
-    }
-
-    let completed = 0;
-
-    if (profile.name) completed++;
-
-    if (profile.email) completed++;
-
-    if (profile.bio) completed++;
-
-    if (profile.goals) completed++;
-
-    const percentage =
-        Math.round((completed / 4) * 100);
-
     document.getElementById("profileCompletion").innerText =
-        percentage + "%";
+        Data.getProfileCompletion() + "%";
 
 }
 
+
+
 function loadApplicationVersion() {
 
-    document.getElementById("appVersion").innerText =
-        "v0.01";
+    const versionElement =
+        document.getElementById("appVersion");
+
+    if (versionElement) {
+
+        versionElement.innerText = "v0.01";
+
+    }
 
 }
