@@ -5,10 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>
-Introspect - Admin Dashboard
+Introspect - User Management
 </title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -19,21 +20,32 @@ href="../css/style.css">
 
 </head>
 
+
 <body>
+
 
 <div class="dashboard-container">
 
+
 <header class="dashboard-header">
+
 
 <div class="dashboard-logo">
 
-<h2>Introspect</h2>
+<h2>
+Introspect
+</h2>
 
-<span>Admin Panel</span>
+<span>
+Admin Panel
+</span>
 
 </div>
 
+
+
 <div class="profile-area">
+
 
 <span>
 
@@ -51,6 +63,8 @@ Admin
 
 </span>
 
+
+
 <button
 id="logoutBtn"
 class="login-submit">
@@ -59,63 +73,97 @@ Logout
 
 </button>
 
+
 </div>
+
 
 </header>
 
+
+
+
 <div class="dashboard-layout">
+
+
 
 <aside class="dashboard-sidebar">
 
+
 <nav>
+
 
 <a href="admin_dashboard.html">
 Dashboard
 </a>
 
+
 <a href="user_management.html">
 User Management
 </a>
+
 
 <a href="manager_management.html">
 Manager Management
 </a>
 
+
 <a href="system_reports.html">
 System Reports
 </a>
+
 
 <a href="system_settings.html">
 System Settings
 </a>
 
+
 </nav>
+
 
 </aside>
 
+
+
+
+
+
 <main class="dashboard-content">
+
+
 
 <section class="welcome-section">
 
+
 <h1>
-Admin Dashboard 🛡️
+
+User Management 👥
+
 </h1>
+
 
 <p>
 
-Monitor the complete Introspect platform.
+Monitor registered users and their progress.
 
 </p>
+
 
 </section>
 
 
 
+
+
+
 <section class="progress-statistics">
+
+
 
 <div class="dashboard-card">
 
-<h3>Total Users</h3>
+<h3>
+Total Users
+</h3>
 
 <p id="totalUsers">
 --
@@ -127,7 +175,23 @@ Monitor the complete Introspect platform.
 
 <div class="dashboard-card">
 
-<h3>Total Reflections</h3>
+<h3>
+Active Users
+</h3>
+
+<p id="activeUsers">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Total Reflections
+</h3>
 
 <p id="totalReflections">
 --
@@ -139,73 +203,129 @@ Monitor the complete Introspect platform.
 
 <div class="dashboard-card">
 
-<h3>Total Activities</h3>
+<h3>
+Average Completion
+</h3>
 
-<p id="totalActivities">
+<p id="averageCompletion">
 --
 </p>
 
 </div>
 
-
-
-<div class="dashboard-card">
-
-<h3>Most Active User</h3>
-
-<p id="mostActiveUser">
---
-</p>
-
-</div>
 
 </section>
+
+
+
+
 
 
 
 <section class="dashboard-card">
 
+
 <h2>
-
-System Overview
-
+User List
 </h2>
 
-<p id="systemOverview">
 
-Loading...
 
-</p>
+<table
+style="width:100%;border-collapse:collapse;margin-top:20px;">
+
+
+
+<thead>
+
+<tr>
+
+<th align="left">
+Username
+</th>
+
+
+<th align="left">
+Role
+</th>
+
+
+<th align="left">
+Reflections
+</th>
+
+
+<th align="left">
+Profile %
+</th>
+
+
+<th align="left">
+Status
+</th>
+
+
+</tr>
+
+</thead>
+
+
+
+<tbody id="userTableBody">
+
+
+</tbody>
+
+
+
+</table>
+
 
 </section>
 
+
+
 </main>
 
+
+
 </div>
+
+
+
 
 <footer class="dashboard-footer">
 
 <p>
-
 Introspect v0.01
-
 </p>
 
 </footer>
 
+
+
 </div>
 
+
+
+
 <script src="../js/modules/session.js"></script>
+
 <script src="../js/modules/data.js"></script>
+
 <script src="../js/modules/activity.js"></script>
+
 <script src="../js/routing.js"></script>
-<script src="../js/admin_dashboard.js"></script>
+
+<script src="../js/user_management.js"></script>
+
 
 <script>
 
 AppRouter.protectPage("admin");
 
 </script>
+
 
 </body>
 

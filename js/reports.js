@@ -2,36 +2,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("reports.js loaded");
 
-    // Display Username
-    const usernameElement = document.getElementById("usernameDisplay");
-
-    if (usernameElement) {
-        usernameElement.textContent = Session.getUsername();
-    }
-
-    // Display Role
-    const roleElement = document.getElementById("roleDisplay");
-
-    if (roleElement) {
-        roleElement.textContent = Session.getRole();
-    }
-
-    // Logout Button
-    const logoutButton = document.getElementById("logoutBtn");
-
-    if (logoutButton) {
-
-        logoutButton.addEventListener("click", function () {
-
-            Session.logout();
-
-        });
-
-    }
+    initializePage();
 
     loadReports();
 
 });
+
+
+
+function initializePage() {
+
+    const usernameElement =
+        document.getElementById("usernameDisplay");
+
+    if (usernameElement) {
+
+        usernameElement.innerText =
+            Session.getUsername();
+
+    }
+
+    const roleElement =
+        document.getElementById("roleDisplay");
+
+    if (roleElement) {
+
+        roleElement.innerText =
+            Session.getRole();
+
+    }
+
+    const logoutButton =
+        document.getElementById("logoutBtn");
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+
+            "click",
+
+            function () {
+
+                Session.logout();
+
+            }
+
+        );
+
+    }
+
+}
 
 
 
@@ -54,12 +74,14 @@ function loadCurrentUser() {
     const element =
         document.getElementById("currentUser");
 
-    if (element) {
+    if (!element) {
 
-        element.innerText =
-            Data.getCurrentUser();
+        return;
 
     }
+
+    element.innerText =
+        Data.getCurrentUser();
 
 }
 
@@ -70,12 +92,14 @@ function loadReflectionCount() {
     const element =
         document.getElementById("totalReflections");
 
-    if (element) {
+    if (!element) {
 
-        element.innerText =
-            Data.getReflectionCount();
+        return;
 
     }
+
+    element.innerText =
+        Data.getReflectionCount();
 
 }
 
@@ -116,11 +140,13 @@ function loadProfileCompletion() {
     const element =
         document.getElementById("profileCompletion");
 
-    if (element) {
+    if (!element) {
 
-        element.innerText =
-            Data.getProfileCompletion() + "%";
+        return;
 
     }
+
+    element.innerText =
+        Data.getProfileCompletion() + "%";
 
 }

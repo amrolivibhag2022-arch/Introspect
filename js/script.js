@@ -67,14 +67,17 @@ return;
 
 
 Session.save(
-role,
-username
+    role,
+    username
 );
 
-
+Activity.log(
+    "Authentication",
+    "User Logged In"
+);
 
 AppRouter.redirect(
-role
+    role
 );
 
 
