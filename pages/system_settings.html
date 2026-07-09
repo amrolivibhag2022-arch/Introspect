@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Introspect - System Settings
+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<header class="dashboard-header">
+
+<div class="dashboard-logo">
+
+<h2>
+Introspect
+</h2>
+
+<span>
+System Settings
+</span>
+
+</div>
+
+<div class="profile-area">
+
+<span>
+
+Welcome,
+
+<span id="usernameDisplay">
+Admin
+</span>
+
+|
+
+<span id="roleDisplay">
+Admin
+</span>
+
+</span>
+
+<button
+id="logoutBtn"
+class="login-submit">
+
+Logout
+
+</button>
+
+</div>
+
+</header>
+
+<div class="dashboard-layout">
+
+<aside class="dashboard-sidebar">
+
+<nav>
+
+<a href="admin_dashboard.html">
+Dashboard
+</a>
+
+<a href="user_management.html">
+User Management
+</a>
+
+<a href="manager_management.html">
+Manager Management
+</a>
+
+<a href="system_reports.html">
+System Reports
+</a>
+
+<a href="system_settings.html">
+System Settings
+</a>
+
+</nav>
+
+</aside>
+
+<main class="dashboard-content">
+
+<section class="welcome-section">
+
+<h1>
+
+System Settings ⚙️
+
+</h1>
+
+<p>
+
+Manage application level information.
+
+</p>
+
+</section>
+
+
+
+<section class="progress-statistics">
+
+<div class="dashboard-card">
+
+<h3>
+Application Version
+</h3>
+
+<p id="appVersion">
+
+v0.01 MVP
+
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Current Admin
+</h3>
+
+<p id="currentAdmin">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Current Role
+</h3>
+
+<p id="currentRole">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Activity Records
+</h3>
+
+<p id="activityCount">
+--
+</p>
+
+</div>
+
+</section>
+
+
+
+<section class="dashboard-card">
+
+<h2>
+
+System Maintenance
+
+</h2>
+
+<br>
+
+<button
+id="clearActivityBtn"
+class="login-submit">
+
+Clear Activity Logs
+
+</button>
+
+<br><br>
+
+<button
+id="resetDemoBtn"
+class="login-submit">
+
+Reset Demo Data
+
+</button>
+
+</section>
+
+
+
+<section class="dashboard-card">
+
+<h2>
+
+Future Features
+
+</h2>
+
+<p>
+
+Database settings, AI configuration, Email settings, Backup & Restore, Security Policies and User Permissions will be available after backend integration.
+
+</p>
+
+</section>
+
+</main>
+
+</div>
+
+<footer class="dashboard-footer">
+
+<p>
+
+Introspect v0.01
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="../js/modules/session.js"></script>
+<script src="../js/modules/data.js"></script>
+<script src="../js/modules/activity.js"></script>
+<script src="../js/routing.js"></script>
+<script src="../js/system_settings.js"></script>
+
+<script>
+
+AppRouter.protectPage("admin");
+
+</script>
+
+</body>
+
+</html>

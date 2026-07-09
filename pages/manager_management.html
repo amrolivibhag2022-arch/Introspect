@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Introspect - Manager Management
+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<header class="dashboard-header">
+
+<div class="dashboard-logo">
+
+<h2>
+Introspect
+</h2>
+
+<span>
+Admin Panel
+</span>
+
+</div>
+
+<div class="profile-area">
+
+<span>
+
+Welcome,
+
+<span id="usernameDisplay">
+Admin
+</span>
+
+|
+
+<span id="roleDisplay">
+Admin
+</span>
+
+</span>
+
+<button
+id="logoutBtn"
+class="login-submit">
+
+Logout
+
+</button>
+
+</div>
+
+</header>
+
+<div class="dashboard-layout">
+
+<aside class="dashboard-sidebar">
+
+<nav>
+
+<a href="admin_dashboard.html">
+Dashboard
+</a>
+
+<a href="user_management.html">
+User Management
+</a>
+
+<a href="manager_management.html">
+Manager Management
+</a>
+
+<a href="system_reports.html">
+System Reports
+</a>
+
+<a href="system_settings.html">
+System Settings
+</a>
+
+</nav>
+
+</aside>
+
+<main class="dashboard-content">
+
+<section class="welcome-section">
+
+<h1>
+Manager Management 👨‍💼
+</h1>
+
+<p>
+
+Monitor managers registered in Introspect.
+
+</p>
+
+</section>
+
+
+
+<section class="progress-statistics">
+
+<div class="dashboard-card">
+
+<h3>
+Total Managers
+</h3>
+
+<p id="totalManagers">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Active Managers
+</h3>
+
+<p id="activeManagers">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Total Activities
+</h3>
+
+<p id="totalActivities">
+--
+</p>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Average Completion
+</h3>
+
+<p id="averageCompletion">
+--
+</p>
+
+</div>
+
+</section>
+
+
+
+<section class="dashboard-card">
+
+<h2>
+
+Manager List
+
+</h2>
+
+<table
+style="width:100%;border-collapse:collapse;margin-top:20px;">
+
+<thead>
+
+<tr>
+
+<th align="left">
+Manager
+</th>
+
+<th align="left">
+Role
+</th>
+
+<th align="left">
+Profile %
+</th>
+
+<th align="left">
+Activities
+</th>
+
+<th align="left">
+Status
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="managerTableBody">
+
+</tbody>
+
+</table>
+
+</section>
+
+</main>
+
+</div>
+
+<footer class="dashboard-footer">
+
+<p>
+
+Introspect v0.01
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="../js/modules/session.js"></script>
+<script src="../js/modules/data.js"></script>
+<script src="../js/modules/activity.js"></script>
+<script src="../js/routing.js"></script>
+<script src="../js/manager_management.js"></script>
+
+<script>
+
+AppRouter.protectPage("admin");
+
+</script>
+
+</body>
+
+</html>
