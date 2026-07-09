@@ -11,46 +11,136 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    loginForm.addEventListener("submit", function (event) {
+    const username =
+        document.getElementById("username");
 
-        event.preventDefault();
+    const password =
+        document.getElementById("password");
 
-        const username =
-            document.getElementById("username")
-            .value
-            .trim();
+    const loginBtn =
+        document.getElementById("loginBtn");
 
-        const password =
-            document.getElementById("password")
-            .value
-            .trim();
+    username.focus();
 
-        if (!username || !password) {
 
-            alert("Please fill all fields");
 
-            return;
+    function validateForm() {
 
-        }
-
-        const result =
-            Auth.login(
-                username,
-                password
-            );
-
-        if (!result.success) {
-
-            alert(result.message);
-
-            return;
-
-        }
-
-        AppRouter.redirect(
-            result.role
+        loginBtn.disabled = !(
+            username.value.trim() &&
+            password.value.trim()
         );
 
-    });
+    }
+
+
+
+    username.addEventListener(
+
+        "input",
+
+        validateForm
+
+    );
+
+
+
+    password.addEventListener(
+
+        "input",
+
+        validateForm
+
+    );
+
+
+
+    const togglePassword =
+        document.getElementById(
+            "togglePassword"
+        );
+
+
+
+    togglePassword.addEventListener(
+
+        "click",
+
+        function () {
+
+            if (
+
+                password.type === "password"
+
+            ) {
+
+                password.type = "text";
+
+                togglePassword.innerText = "🙈";
+
+            }
+
+            else {
+
+                password.type = "password";
+
+                togglePassword.innerText = "👁";
+
+            }
+
+        }
+
+    );
+
+
+
+    loginForm.addEventListener(
+
+        "submit",
+
+        function (event) {
+
+            event.preventDefault();
+
+            const result =
+                Auth.login(
+
+                    username.value.trim(),
+
+                    password.value.trim()
+
+                );
+
+
+
+            if (!result.success) {
+
+                alert(result.message);
+
+                password.focus();
+
+                password.select();
+
+                return;
+
+            }
+
+            Activity.log(
+
+                "Authentication",
+
+                "Login Success"
+
+            );
+
+            AppRouter.redirect(
+
+                result.role
+
+            );
+
+        }
+
+    );
 
 });

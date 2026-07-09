@@ -86,17 +86,27 @@ placeholder="Enter your email">
 
 <div class="input-group">
 
-
 <label>
 Password
 </label>
 
+<div class="password-wrapper">
 
 <input
 id="password"
 type="password"
 placeholder="Enter your password">
 
+<button
+type="button"
+id="togglePassword"
+class="password-toggle">
+
+👁
+
+</button>
+
+</div>
 
 </div>
 
@@ -128,9 +138,11 @@ Forgot Password?
 
 
 
-<button 
+<button
+id="loginBtn"
 class="login-submit"
-type="submit">
+type="submit"
+disabled>
 
 Login
 

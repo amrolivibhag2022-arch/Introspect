@@ -1582,3 +1582,65 @@ to {
     display:block;
 
 }
+
+/* ===========================
+   Password Toggle
+=========================== */
+
+.password-wrapper{
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+}
+
+
+
+.password-wrapper input{
+
+width:100%;
+
+padding-right:45px;
+
+}
+
+
+
+.password-toggle{
+
+position:absolute;
+
+right:10px;
+
+border:none;
+
+background:none;
+
+cursor:pointer;
+
+font-size:18px;
+
+color:#999;
+
+}
+
+
+
+.password-toggle:hover{
+
+color:#ffffff;
+
+}
+
+
+
+.login-submit:disabled{
+
+opacity:.5;
+
+cursor:not-allowed;
+
+}
