@@ -941,7 +941,21 @@ var(--accent-cyan)
 
 }
 
+.dashboard-logo{
 
+display:flex;
+
+flex-direction:column;
+
+text-decoration:none;
+
+color:inherit;
+
+cursor:pointer;
+
+width:fit-content;
+
+}
 
 .dashboard-logo h2 {
 
@@ -1642,5 +1656,35 @@ color:#ffffff;
 opacity:.5;
 
 cursor:not-allowed;
+
+}
+
+/* Mobile Sidebar */
+
+@media (max-width:768px){
+
+.dashboard-sidebar{
+
+position:fixed;
+
+left:-260px;
+
+top:70px;
+
+width:250px;
+
+height:100%;
+
+z-index:1000;
+
+transition:left 0.3s ease;
+
+}
+
+.dashboard-sidebar.active{
+
+left:0;
+
+}
 
 }
