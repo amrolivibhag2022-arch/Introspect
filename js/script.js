@@ -17,50 +17,37 @@ document.addEventListener("DOMContentLoaded", function () {
     const password =
         document.getElementById("password");
 
+    const rememberMe =
+        document.getElementById("rememberMe");
+
     const loginBtn =
         document.getElementById("loginBtn");
 
+    const togglePassword =
+        document.getElementById("togglePassword");
+
     username.focus();
-
-
 
     function validateForm() {
 
         loginBtn.disabled = !(
+
             username.value.trim() &&
             password.value.trim()
+
         );
 
     }
 
-
-
     username.addEventListener(
-
         "input",
-
         validateForm
-
     );
-
-
 
     password.addEventListener(
-
         "input",
-
         validateForm
-
     );
-
-
-
-    const togglePassword =
-        document.getElementById(
-            "togglePassword"
-        );
-
-
 
     togglePassword.addEventListener(
 
@@ -68,14 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function () {
 
-            if (
-
-                password.type === "password"
-
-            ) {
+            if (password.type === "password") {
 
                 password.type = "text";
-
                 togglePassword.innerText = "🙈";
 
             }
@@ -83,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
             else {
 
                 password.type = "password";
-
                 togglePassword.innerText = "👁";
 
             }
@@ -91,8 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     );
-
-
 
     loginForm.addEventListener(
 
@@ -103,17 +82,26 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
 
             const result =
+
                 Auth.login(
 
                     username.value.trim(),
 
-                    password.value.trim()
+                    password.value.trim(),
+
+                    rememberMe.checked
 
                 );
 
-
-
             if (!result.success) {
+
+                Activity.log(
+
+                    "Authentication",
+
+                    "Login Failed"
+
+                );
 
                 alert(result.message);
 

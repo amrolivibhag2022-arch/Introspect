@@ -1,11 +1,10 @@
 window.Session = {
 
-    save: function (role, username) {
+    save: function (role, username, remember = false) {
 
         if (!role) {
 
             console.error("Role missing");
-
             return;
 
         }
@@ -16,17 +15,29 @@ window.Session = {
 
         }
 
-        localStorage.setItem(
+        const storage = remember
+            ? localStorage
+            : sessionStorage;
+
+        localStorage.removeItem("introspect_logged_in");
+        localStorage.removeItem("introspect_role");
+        localStorage.removeItem("introspect_username");
+
+        sessionStorage.removeItem("introspect_logged_in");
+        sessionStorage.removeItem("introspect_role");
+        sessionStorage.removeItem("introspect_username");
+
+        storage.setItem(
             "introspect_logged_in",
             "true"
         );
 
-        localStorage.setItem(
+        storage.setItem(
             "introspect_role",
             role.toLowerCase()
         );
 
-        localStorage.setItem(
+        storage.setItem(
             "introspect_username",
             username
         );
@@ -37,9 +48,19 @@ window.Session = {
 
     isLoggedIn: function () {
 
-        return localStorage.getItem(
-            "introspect_logged_in"
-        ) === "true";
+        return (
+
+            localStorage.getItem(
+                "introspect_logged_in"
+            ) === "true"
+
+            ||
+
+            sessionStorage.getItem(
+                "introspect_logged_in"
+            ) === "true"
+
+        );
 
     },
 
@@ -47,8 +68,18 @@ window.Session = {
 
     getRole: function () {
 
-        return localStorage.getItem(
-            "introspect_role"
+        return (
+
+            localStorage.getItem(
+                "introspect_role"
+            )
+
+            ||
+
+            sessionStorage.getItem(
+                "introspect_role"
+            )
+
         );
 
     },
@@ -57,9 +88,23 @@ window.Session = {
 
     getUsername: function () {
 
-        return localStorage.getItem(
-            "introspect_username"
-        ) || "Guest";
+        return (
+
+            localStorage.getItem(
+                "introspect_username"
+            )
+
+            ||
+
+            sessionStorage.getItem(
+                "introspect_username"
+            )
+
+            ||
+
+            "Guest"
+
+        );
 
     },
 
@@ -67,49 +112,33 @@ window.Session = {
 
     logout: function () {
 
-    const username = Session.getUsername();
-
-    const role = Session.getRole();
-
-    if (window.Activity) {
-
-        const activities =
-            JSON.parse(
-                localStorage.getItem("introspect_activity")
-            ) || [];
-
-        activities.push({
-
-            id: Date.now(),
-
-            username: username,
-
-            role: role,
-
-            module: "Authentication",
-
-            action: "User Logged Out",
-
-            timestamp: new Date().toISOString()
-
-        });
-
-        localStorage.setItem(
-
-            "introspect_activity",
-
-            JSON.stringify(activities)
-
+        localStorage.removeItem(
+            "introspect_logged_in"
         );
 
+        localStorage.removeItem(
+            "introspect_role"
+        );
+
+        localStorage.removeItem(
+            "introspect_username"
+        );
+
+        sessionStorage.removeItem(
+            "introspect_logged_in"
+        );
+
+        sessionStorage.removeItem(
+            "introspect_role"
+        );
+
+        sessionStorage.removeItem(
+            "introspect_username"
+        );
+
+        window.location.href =
+            "../pages/login.html";
+
     }
-
-    localStorage.removeItem("introspect_logged_in");
-    localStorage.removeItem("introspect_role");
-    localStorage.removeItem("introspect_username");
-
-    window.location.href = "../pages/login.html";
-
-}
 
 };

@@ -48,66 +48,66 @@ window.Auth = {
 
 
 
-    login: function (username, password) {
+    login: function (username, password, remember = false) {
 
-        this.initialize();
+    this.initialize();
 
-        const users =
-            JSON.parse(
-                localStorage.getItem(this.storageKey)
-            ) || [];
+    const users =
+        JSON.parse(
+            localStorage.getItem(this.storageKey)
+        ) || [];
 
-        const account =
-            users.find(function (user) {
+    const account =
+        users.find(function (user) {
 
-                return (
-                    user.username.toLowerCase() ===
-                    username.toLowerCase()
-                );
+            return (
+                user.username.toLowerCase() ===
+                username.toLowerCase()
+            );
 
-            });
+        });
 
-        if (!account) {
-
-            return {
-
-                success: false,
-
-                message: "User not found."
-
-            };
-
-        }
-
-        if (account.password !== password) {
-
-            return {
-
-                success: false,
-
-                message: "Invalid password."
-
-            };
-
-        }
-
-        Session.save(
-
-            account.role,
-
-            account.username
-
-        );
+    if (!account) {
 
         return {
 
-            success: true,
-
-            role: account.role
+            success: false,
+            message: "User not found."
 
         };
 
     }
+
+    if (account.password !== password) {
+
+        return {
+
+            success: false,
+            message: "Invalid password."
+
+        };
+
+    }
+
+    Session.save(
+
+        account.role,
+
+        account.username,
+
+        remember
+
+    );
+
+    return {
+
+        success: true,
+
+        role: account.role
+
+    };
+
+}
 
 };
 
