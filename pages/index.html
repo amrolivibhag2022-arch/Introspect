@@ -13,7 +13,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 
@@ -62,7 +62,7 @@
 
 
 
-        <a href="pages/login.html" class="login-btn">
+        <a href="login.html" class="login-btn">
 
             Login
 
@@ -84,6 +84,26 @@
 
 </footer>
 
+<script src="../js/modules/session.js"></script>
+<script src="../js/routing.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (Session.isLoggedIn()) {
+
+        AppRouter.redirect(
+
+            Session.getRole()
+
+        );
+
+    }
+
+});
+
+</script>
 
 </body>
 
