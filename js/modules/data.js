@@ -278,6 +278,70 @@ window.Data = {
 
         return winner;
 
-    }
+    },
+
+// ===========================
+// NIVEDAN FUNCTIONS
+// ===========================
+
+saveNivedan: function (nivedan) {
+
+    const key = "introspect_nivedan";
+
+    let records =
+        JSON.parse(
+            localStorage.getItem(key)
+        ) || [];
+
+    records.push(nivedan);
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(records)
+    );
+
+},
+
+
+getUserNivedan: function () {
+
+    const key = "introspect_nivedan";
+
+    const username =
+        this.getCurrentUser();
+
+    const records =
+        JSON.parse(
+            localStorage.getItem(key)
+        ) || [];
+
+    return records.filter(
+
+        item =>
+
+        item.username === username
+
+    );
+
+},
+
+
+getTodayNivedan: function () {
+
+    const today =
+        new Date().toLocaleDateString();
+
+    const records =
+        this.getUserNivedan();
+
+    return records.find(
+
+        item =>
+
+        item.date === today
+
+    ) || null;
+
+},
 
 };
