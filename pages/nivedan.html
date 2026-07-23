@@ -2,161 +2,343 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Introspect - Self Reflection</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introspect - Daily Nivedan</title>
+    
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
+    <div class="dashboard-container">
+        <!-- Main Dashboard Header -->
+        <header class="dashboard-header" role="banner">
+            <a href="user_dashboard.html" class="dashboard-logo" aria-label="Introspect Ek Prerna Home">
+                <h2>Introspect</h2>
+                <span>Ek Prerna</span>
+            </a>
 
-<div class="dashboard-container">
+            <div class="profile-area">
+                <span class="user-greeting">
+                    Welcome, <span id="usernameDisplay">User</span> | <span id="roleDisplay">User</span>
+                </span>
+                <button type="button" class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    ☰
+                </button>
+                <button type="button" id="logoutBtn" class="login-submit logout-btn-header">
+                    Logout
+                </button>
+            </div>
+        </header>
 
-<header class="dashboard-header">
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="dashboard-sidebar" role="navigation" aria-label="Main Navigation">
+                <nav>
+                    <a href="user_dashboard.html">Dashboard</a>
+                    <a href="profile.html">Profile</a>
+                    <a href="reflection.html">Self Reflection</a>
+                    <a href="nivedan.html" class="active" aria-current="page">Nivedan</a>
+                    <a href="progress.html">Progress</a>
+                    <a href="reports.html">Reports</a>
+                    <a href="settings.html">Settings</a>
+                </nav>
+            </aside>
 
-    <div class="dashboard-logo">
-        <h2>Introspect</h2>
-        <span>Self Reflection</span>
+            <!-- Main Content Area -->
+            <main class="dashboard-content" id="main-content">
+                <!-- Page Welcome Header -->
+                <section class="welcome-section nivedan-header-section">
+                    <div class="nivedan-header-text">
+                        <h1>🙏 Daily Nivedan</h1>
+                        <p>Track your daily spiritual practice, fulfill your commitments, and reflect on your growth.</p>
+                    </div>
+                    <div class="nivedan-date-badge" id="currentDateDisplay" aria-label="Current Date">
+                        <!-- Date filled dynamically by JS -->
+                    </div>
+                </section>
+
+                <!-- Toast Notification Banner -->
+                <div id="toastNotification" class="toast-notification hidden" role="alert" aria-live="polite">
+                    <span id="toastIcon" class="toast-icon">✓</span>
+                    <span id="toastMessage" class="toast-message">Nivedan saved successfully!</span>
+                </div>
+
+                <div class="nivedan-container">
+                    <!-- SECTION 1: Today's Motivation Card -->
+                    <section class="dashboard-card nivedan-motivation-card" aria-labelledby="motivation-heading">
+                        <div class="motivation-header">
+                            <span class="motivation-badge">🌸 Today's Motivation</span>
+                            <button type="button" id="refreshQuoteBtn" class="quote-refresh-btn" aria-label="Get new quote" title="Refresh Quote">
+                                🔄
+                            </button>
+                        </div>
+                        <blockquote class="motivation-blockquote">
+                            <p id="motivationMessage" class="motivation-quote-text">
+                                "Har chhota satkarya bhi Prabhu karya ki disha me ek bada kadam hai."
+                            </p>
+                            <cite id="quoteAuthor" class="motivation-quote-author">— Swadhyay Prem</cite>
+                        </blockquote>
+                    </section>
+
+                    <!-- SECTION 2: Yesterday's Commitment Card -->
+                    <section class="dashboard-card nivedan-commitment-card" aria-labelledby="commitment-heading">
+                        <div class="card-header-flex">
+                            <h2 id="commitment-heading" class="card-title">
+                                <span class="card-icon">📅</span> Yesterday's Commitment
+                            </h2>
+                            <span id="commitmentStatusBadge" class="status-pill status-pending">Checking...</span>
+                        </div>
+                        <div class="commitment-body">
+                            <p id="planningStatus" class="commitment-text">
+                                Loading yesterday's planned commitment details...
+                            </p>
+                            <div id="commitmentMeta" class="commitment-meta-info hidden">
+                                <div class="meta-item">
+                                    <span class="meta-label">Target Date:</span>
+                                    <span id="commitmentDateVal" class="meta-val">-</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Planned Hours:</span>
+                                    <span id="commitmentHoursVal" class="meta-val">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- MAIN NIVEDAN FORM (Sections 3 to 10) -->
+                    <form id="nivedanForm" class="nivedan-form" novalidate>
+
+                        <!-- SECTION 3: Bhaavferi Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🕊️</span> 3. Bhaavferi
+                            </legend>
+                            <p class="section-instruction">Did you complete today's Bhaavferi?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Bhaavferi Completion Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="bhaavferi" value="yes" id="bhaavferiYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="bhaavferi" value="no" id="bhaavferiNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <!-- Bhaavferi Hours (Conditional / Expandable) -->
+                            <div id="bhaavferiHoursGroup" class="form-group conditional-field hidden">
+                                <label for="bhaavferiHours" class="input-label">
+                                    Hours Spent <span class="required-asterisk">*</span>
+                                </label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="bhaavferiHours" name="bhaavferiHours" min="0" max="24" step="0.5" placeholder="e.g. 2.0" class="nivedan-input">
+                                    <span class="input-unit">Hours</span>
+                                </div>
+                            </div>
+
+                            <!-- Bhaavferi Reason (Conditional / Optional) -->
+                            <div id="bhaavferiReasonGroup" class="form-group conditional-field hidden">
+                                <label for="bhaavferiReason" class="input-label">
+                                    Reason <span class="optional-tag">(Optional)</span>
+                                </label>
+                                <textarea id="bhaavferiReason" name="bhaavferiReason" rows="3" placeholder="If unable to complete or partial, share reason or reflection..." class="nivedan-textarea"></textarea>
+                            </div>
+
+                            <hr class="card-divider">
+
+                            <!-- Future Bhaavferi Planning Sub-section -->
+                            <div class="sub-planning-section">
+                                <h3 class="sub-section-title">
+                                    <span class="sub-icon">🗓️</span> Future Bhaavferi Planning
+                                </h3>
+                                <p class="sub-section-desc">Commit your next Bhaavferi session to maintain momentum.</p>
+
+                                <div class="form-grid-2col">
+                                    <div class="form-group">
+                                        <label for="nextBhaavferiDate" class="input-label">Future Planning Date</label>
+                                        <input type="date" id="nextBhaavferiDate" name="nextBhaavferiDate" class="nivedan-input date-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nextBhaavferiHours" class="input-label">Future Planning Hours</label>
+                                        <div class="input-unit-wrapper">
+                                            <input type="number" id="nextBhaavferiHours" name="nextBhaavferiHours" min="0.5" max="24" step="0.5" placeholder="e.g. 2.0" class="nivedan-input">
+                                            <span class="input-unit">Hours</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 4: Reading Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">📚</span> 4. Reading (Swadhyay)
+                            </legend>
+                            <p class="section-instruction">Did you engage in spiritual reading today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Reading Completion Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="reading" value="yes" id="readingYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="reading" value="no" id="readingNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="readingDurationGroup" class="form-group conditional-field hidden">
+                                <label for="readingMinutes" class="input-label">Duration (Minutes)</label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="readingMinutes" name="readingMinutes" min="0" max="600" step="5" placeholder="e.g. 30" class="nivedan-input">
+                                    <span class="input-unit">Mins</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 5: Pravachan Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🛕</span> 5. Pravachan
+                            </legend>
+                            <p class="section-instruction">Did you attend or listen to Pravachan today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Pravachan Attendance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="pravachan" value="yes" id="pravachanYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="pravachan" value="no" id="pravachanNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="pravachanNotesGroup" class="form-group conditional-field hidden">
+                                <label for="pravachanNotes" class="input-label">Pravachan Topic / Speaker <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="pravachanNotes" name="pravachanNotes" placeholder="e.g. Discourse on Gita Ch. 4 or Speaker Name" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 6: Meeting Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">👥</span> 6. Meeting
+                            </legend>
+                            <p class="section-instruction">Did you participate in Satsang / Group Meeting today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Meeting Attendance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="meeting" value="yes" id="meetingYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="meeting" value="no" id="meetingNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="meetingNotesGroup" class="form-group conditional-field hidden">
+                                <label for="meetingNotes" class="input-label">Meeting Notes / Agenda <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="meetingNotes" name="meetingNotes" placeholder="e.g. Weekly Satsang & Planning" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 7: Kendra Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🌱</span> 7. Kendra
+                            </legend>
+                            <p class="section-instruction">Did you attend Kendra activities today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Kendra Activity Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="kendra" value="yes" id="kendraYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="kendra" value="no" id="kendraNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="kendraNotesGroup" class="form-group conditional-field hidden">
+                                <label for="kendraNotes" class="input-label">Kendra Seva / Activity <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="kendraNotes" name="kendraNotes" placeholder="e.g. Youth Center Volunteering" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 8: Vrati Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🕉️</span> 8. Vrati
+                            </legend>
+                            <p class="section-instruction">Did you observe Vrati / Fasting / Special Observance today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Vrati Observance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="vrati" value="yes" id="vratiYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="vrati" value="no" id="vratiNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="vratiNotesGroup" class="form-group conditional-field hidden">
+                                <label for="vratiNotes" class="input-label">Vrati Details <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="vratiNotes" name="vratiNotes" placeholder="e.g. Ekadashi Vrat / Maun Vrat" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 9: Daily Reflection Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">📝</span> 9. Daily Reflection
+                            </legend>
+                            <label for="dailyReflection" class="input-label">
+                                Reflections, Realizations & Gratitude <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <textarea id="dailyReflection" name="dailyReflection" rows="4" placeholder="Write today's short experience, spiritual realization, or key takeaway..." class="nivedan-textarea"></textarea>
+                        </fieldset>
+
+                        <!-- SECTION 10: Save Button & Actions -->
+                        <div class="dashboard-card nivedan-submit-card">
+                            <div class="submit-card-content">
+                                <p class="submit-hint-text">Double check your responses before saving your daily sadhana record.</p>
+                                <button type="submit" id="saveNivedanBtn" class="primary-btn save-nivedan-btn">
+                                    💾 Save Nivedan
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <!-- Dashboard Footer -->
+        <footer class="dashboard-footer" role="contentinfo">
+            <p>Introspect v0.01 MVP — Ek Prerna Sadhana Portal</p>
+        </footer>
     </div>
 
-    <div class="profile-area">
-        <span>Welcome, <span id="usernameDisplay">User</span></span>
-
-        <button id="logoutBtn" class="login-submit">Logout</button>
-    </div>
-
-</header>
-
-<div class="dashboard-layout">
-
-    <aside class="dashboard-sidebar">
-        <nav>
-
-            <a href="user_dashboard.html">Dashboard</a>
-            <a href="profile.html">Profile</a>
-            <a href="reflection.html">Self Reflection</a>
-            <a href="nivedan.html">Nivedan</a>
-            <a href="progress.html">Progress</a>
-            <a href="reports.html">Reports</a>
-            <a href="settings.html">Settings</a>
-
-        </nav>
-    </aside>
-
-    <main class="dashboard-content">
-
-    <section class="welcome-section">
-        <h1>📝 Aaj Ka Nivedan</h1>
-
-        <p>
-            Apni aaj ki seva aur swadhyay sambandhit sankshipt jankari darj karein.
-        </p>
-    </section>
-
-    <section class="activity-panel">
-
-        <form id="nivedanForm">
-
-<div class="activity-card">
-
-    <h2>🕊️ भावफेरी</h2>
-
-    <label>Kya aaj Bhaavferi ki?</label>
-
-    <div class="radio-group">
-
-        <label>
-            <input type="radio"
-                   name="bhaavferi"
-                   value="yes">
-            Yes
-        </label>
-
-        <label>
-            <input type="radio"
-                   name="bhaavferi"
-                   value="no">
-            No
-        </label>
-
-    </div>
-
-    <div id="bhaavferi-hours-section">
-
-        <label for="bhaavferiHours">
-            Kitne Hours?
-        </label>
-
-        <input
-            type="number"
-            id="bhaavferiHours"
-            min="0"
-            max="12"
-            step="0.5"
-            placeholder="Example : 2">
-
-    </div>
-
-    <div id="bhaavferi-reason-section">
-
-        <label for="reason">
-
-            Agar nahi kar sake to reason (Optional)
-
-        </label>
-
-        <textarea
-            id="reason"
-            rows="3"
-            placeholder="Optional"></textarea>
-
-    </div>
-
-</div>
-
-<br>
-
-<button
-    type="submit"
-    class="primary-btn">
-
-    Save Nivedan
-
-</button>
-        </form>
-
-    </section>
-
-</main>
-
-</div>
-
-<footer class="dashboard-footer">
-    <p>Introspect v0.01 MVP</p>
-</footer>
-
-</div>
-
-<script src="../js/modules/session.js"></script>
-<script src="../js/routing.js"></script>
-
-<script src="../js/modules/activityConfig.js"></script>
-<script src="../js/modules/activityRenderer.js"></script>
-<script src="../js/modules/nivedanStorage.js"></script>
-
-<script src="../js/nivedan.js"></script>
-
-<script>
-
-AppRouter.protectPage("user");
-
-document.getElementById("logoutBtn").onclick = function () {
-    Session.logout();
-};
-
-</script>
+    <!-- Scripts -->
+    <script src="../js/modules/session.js"></script>
+    <script src="../js/routing.js"></script>
+    <script src="../js/modules/nivedanStorage.js"></script>
+    <script src="../js/nivedan.js"></script>
+    <script>
+        AppRouter.protectPage("user");
+    </script>
 </body>
+
 </html>

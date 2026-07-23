@@ -1,0 +1,1428 @@
+Listed directory Introspect_v0.01
+Listed directory css
+Listed directory js
+Listed directory pages
+Viewed nivedan.html:1-589
+Viewed style.css:1-800
+Viewed style.css:801-1600
+Viewed style.css:1601-1776
+Viewed nivedan.js:1-5
+Listed directory modules
+Viewed nivedanStorage.js:1-20
+Viewed activityConfig.js:1-51
+Viewed activityRenderer.js:1-7
+Viewed session.js:1-144
+Viewed dashboard.js:1-173
+Viewed user_dashboard.html:1-310
+Created nivedan.html
+Viewed style.css:1730-1776
+Edited style.css
+Created nivedan.js
+
+### `pages/nivedan.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introspect - Daily Nivedan</title>
+    
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Main Dashboard Header -->
+        <header class="dashboard-header" role="banner">
+            <a href="user_dashboard.html" class="dashboard-logo" aria-label="Introspect Ek Prerna Home">
+                <h2>Introspect</h2>
+                <span>Ek Prerna</span>
+            </a>
+
+            <div class="profile-area">
+                <span class="user-greeting">
+                    Welcome, <span id="usernameDisplay">User</span> | <span id="roleDisplay">User</span>
+                </span>
+                <button type="button" class="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    ☰
+                </button>
+                <button type="button" id="logoutBtn" class="login-submit logout-btn-header">
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="dashboard-sidebar" role="navigation" aria-label="Main Navigation">
+                <nav>
+                    <a href="user_dashboard.html">Dashboard</a>
+                    <a href="profile.html">Profile</a>
+                    <a href="reflection.html">Self Reflection</a>
+                    <a href="nivedan.html" class="active" aria-current="page">Nivedan</a>
+                    <a href="progress.html">Progress</a>
+                    <a href="reports.html">Reports</a>
+                    <a href="settings.html">Settings</a>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="dashboard-content" id="main-content">
+                <!-- Page Welcome Header -->
+                <section class="welcome-section nivedan-header-section">
+                    <div class="nivedan-header-text">
+                        <h1>🙏 Daily Nivedan</h1>
+                        <p>Track your daily spiritual practice, fulfill your commitments, and reflect on your growth.</p>
+                    </div>
+                    <div class="nivedan-date-badge" id="currentDateDisplay" aria-label="Current Date">
+                        <!-- Date filled dynamically by JS -->
+                    </div>
+                </section>
+
+                <!-- Toast Notification Banner -->
+                <div id="toastNotification" class="toast-notification hidden" role="alert" aria-live="polite">
+                    <span id="toastIcon" class="toast-icon">✓</span>
+                    <span id="toastMessage" class="toast-message">Nivedan saved successfully!</span>
+                </div>
+
+                <div class="nivedan-container">
+                    <!-- SECTION 1: Today's Motivation Card -->
+                    <section class="dashboard-card nivedan-motivation-card" aria-labelledby="motivation-heading">
+                        <div class="motivation-header">
+                            <span class="motivation-badge">🌸 Today's Motivation</span>
+                            <button type="button" id="refreshQuoteBtn" class="quote-refresh-btn" aria-label="Get new quote" title="Refresh Quote">
+                                🔄
+                            </button>
+                        </div>
+                        <blockquote class="motivation-blockquote">
+                            <p id="motivationMessage" class="motivation-quote-text">
+                                "Har chhota satkarya bhi Prabhu karya ki disha me ek bada kadam hai."
+                            </p>
+                            <cite id="quoteAuthor" class="motivation-quote-author">— Swadhyay Prem</cite>
+                        </blockquote>
+                    </section>
+
+                    <!-- SECTION 2: Yesterday's Commitment Card -->
+                    <section class="dashboard-card nivedan-commitment-card" aria-labelledby="commitment-heading">
+                        <div class="card-header-flex">
+                            <h2 id="commitment-heading" class="card-title">
+                                <span class="card-icon">📅</span> Yesterday's Commitment
+                            </h2>
+                            <span id="commitmentStatusBadge" class="status-pill status-pending">Checking...</span>
+                        </div>
+                        <div class="commitment-body">
+                            <p id="planningStatus" class="commitment-text">
+                                Loading yesterday's planned commitment details...
+                            </p>
+                            <div id="commitmentMeta" class="commitment-meta-info hidden">
+                                <div class="meta-item">
+                                    <span class="meta-label">Target Date:</span>
+                                    <span id="commitmentDateVal" class="meta-val">-</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Planned Hours:</span>
+                                    <span id="commitmentHoursVal" class="meta-val">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- MAIN NIVEDAN FORM (Sections 3 to 10) -->
+                    <form id="nivedanForm" class="nivedan-form" novalidate>
+
+                        <!-- SECTION 3: Bhaavferi Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🕊️</span> 3. Bhaavferi
+                            </legend>
+                            <p class="section-instruction">Did you complete today's Bhaavferi?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Bhaavferi Completion Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="bhaavferi" value="yes" id="bhaavferiYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="bhaavferi" value="no" id="bhaavferiNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <!-- Bhaavferi Hours (Conditional / Expandable) -->
+                            <div id="bhaavferiHoursGroup" class="form-group conditional-field hidden">
+                                <label for="bhaavferiHours" class="input-label">
+                                    Hours Spent <span class="required-asterisk">*</span>
+                                </label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="bhaavferiHours" name="bhaavferiHours" min="0" max="24" step="0.5" placeholder="e.g. 2.0" class="nivedan-input">
+                                    <span class="input-unit">Hours</span>
+                                </div>
+                            </div>
+
+                            <!-- Bhaavferi Reason (Conditional / Optional) -->
+                            <div id="bhaavferiReasonGroup" class="form-group conditional-field hidden">
+                                <label for="bhaavferiReason" class="input-label">
+                                    Reason <span class="optional-tag">(Optional)</span>
+                                </label>
+                                <textarea id="bhaavferiReason" name="bhaavferiReason" rows="3" placeholder="If unable to complete or partial, share reason or reflection..." class="nivedan-textarea"></textarea>
+                            </div>
+
+                            <hr class="card-divider">
+
+                            <!-- Future Bhaavferi Planning Sub-section -->
+                            <div class="sub-planning-section">
+                                <h3 class="sub-section-title">
+                                    <span class="sub-icon">🗓️</span> Future Bhaavferi Planning
+                                </h3>
+                                <p class="sub-section-desc">Commit your next Bhaavferi session to maintain momentum.</p>
+
+                                <div class="form-grid-2col">
+                                    <div class="form-group">
+                                        <label for="nextBhaavferiDate" class="input-label">Future Planning Date</label>
+                                        <input type="date" id="nextBhaavferiDate" name="nextBhaavferiDate" class="nivedan-input date-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nextBhaavferiHours" class="input-label">Future Planning Hours</label>
+                                        <div class="input-unit-wrapper">
+                                            <input type="number" id="nextBhaavferiHours" name="nextBhaavferiHours" min="0.5" max="24" step="0.5" placeholder="e.g. 2.0" class="nivedan-input">
+                                            <span class="input-unit">Hours</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 4: Reading Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">📚</span> 4. Reading (Swadhyay)
+                            </legend>
+                            <p class="section-instruction">Did you engage in spiritual reading today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Reading Completion Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="reading" value="yes" id="readingYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="reading" value="no" id="readingNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="readingDurationGroup" class="form-group conditional-field hidden">
+                                <label for="readingMinutes" class="input-label">Duration (Minutes)</label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="readingMinutes" name="readingMinutes" min="0" max="600" step="5" placeholder="e.g. 30" class="nivedan-input">
+                                    <span class="input-unit">Mins</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 5: Pravachan Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🛕</span> 5. Pravachan
+                            </legend>
+                            <p class="section-instruction">Did you attend or listen to Pravachan today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Pravachan Attendance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="pravachan" value="yes" id="pravachanYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="pravachan" value="no" id="pravachanNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="pravachanNotesGroup" class="form-group conditional-field hidden">
+                                <label for="pravachanNotes" class="input-label">Pravachan Topic / Speaker <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="pravachanNotes" name="pravachanNotes" placeholder="e.g. Discourse on Gita Ch. 4 or Speaker Name" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 6: Meeting Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">👥</span> 6. Meeting
+                            </legend>
+                            <p class="section-instruction">Did you participate in Satsang / Group Meeting today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Meeting Attendance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="meeting" value="yes" id="meetingYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="meeting" value="no" id="meetingNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="meetingNotesGroup" class="form-group conditional-field hidden">
+                                <label for="meetingNotes" class="input-label">Meeting Notes / Agenda <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="meetingNotes" name="meetingNotes" placeholder="e.g. Weekly Satsang & Planning" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 7: Kendra Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🌱</span> 7. Kendra
+                            </legend>
+                            <p class="section-instruction">Did you attend Kendra activities today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Kendra Activity Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="kendra" value="yes" id="kendraYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="kendra" value="no" id="kendraNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="kendraNotesGroup" class="form-group conditional-field hidden">
+                                <label for="kendraNotes" class="input-label">Kendra Seva / Activity <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="kendraNotes" name="kendraNotes" placeholder="e.g. Youth Center Volunteering" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 8: Vrati Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">🕉️</span> 8. Vrati
+                            </legend>
+                            <p class="section-instruction">Did you observe Vrati / Fasting / Special Observance today?</p>
+                            
+                            <div class="radio-pill-group" role="radiogroup" aria-label="Vrati Observance Status">
+                                <label class="radio-pill">
+                                    <input type="radio" name="vrati" value="yes" id="vratiYes" required>
+                                    <span class="pill-btn">Yes</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="vrati" value="no" id="vratiNo">
+                                    <span class="pill-btn">No</span>
+                                </label>
+                            </div>
+
+                            <div id="vratiNotesGroup" class="form-group conditional-field hidden">
+                                <label for="vratiNotes" class="input-label">Vrati Details <span class="optional-tag">(Optional)</span></label>
+                                <input type="text" id="vratiNotes" name="vratiNotes" placeholder="e.g. Ekadashi Vrat / Maun Vrat" class="nivedan-input">
+                            </div>
+                        </fieldset>
+
+                        <!-- SECTION 9: Daily Reflection Card -->
+                        <fieldset class="dashboard-card nivedan-section-card">
+                            <legend class="card-title-legend">
+                                <span class="card-icon">📝</span> 9. Daily Reflection
+                            </legend>
+                            <label for="dailyReflection" class="input-label">
+                                Reflections, Realizations & Gratitude <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <textarea id="dailyReflection" name="dailyReflection" rows="4" placeholder="Write today's short experience, spiritual realization, or key takeaway..." class="nivedan-textarea"></textarea>
+                        </fieldset>
+
+                        <!-- SECTION 10: Save Button & Actions -->
+                        <div class="dashboard-card nivedan-submit-card">
+                            <div class="submit-card-content">
+                                <p class="submit-hint-text">Double check your responses before saving your daily sadhana record.</p>
+                                <button type="submit" id="saveNivedanBtn" class="primary-btn save-nivedan-btn">
+                                    💾 Save Nivedan
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <!-- Dashboard Footer -->
+        <footer class="dashboard-footer" role="contentinfo">
+            <p>Introspect v0.01 MVP — Ek Prerna Sadhana Portal</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/modules/session.js"></script>
+    <script src="../js/routing.js"></script>
+    <script src="../js/modules/nivedanStorage.js"></script>
+    <script src="../js/nivedan.js"></script>
+    <script>
+        AppRouter.protectPage("user");
+    </script>
+</body>
+
+</html>
+```
+
+---
+
+### CSS additions (appended to `css/style.css`)
+
+```css
+/* ==================================================
+   Daily Nivedan Module - Modern Dark Theme Additions
+   ================================================== */
+
+.nivedan-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.nivedan-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.nivedan-header-text h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary, #EDF6FF);
+    margin-bottom: 6px;
+}
+
+.nivedan-header-text p {
+    color: var(--text-secondary, #AFC4DD);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.nivedan-date-badge {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: var(--accent-cyan, #38BDF8);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+}
+
+/* Toast Notifications */
+.toast-notification {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
+    border-radius: 12px;
+    background: rgba(10, 30, 54, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+    color: #EDF6FF;
+    font-weight: 500;
+    font-size: 15px;
+    backdrop-filter: blur(16px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notification.hidden {
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.toast-notification.toast-success {
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.toast-notification.toast-success .toast-icon {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.toast-notification.toast-error {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.toast-notification.toast-error .toast-icon {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.toast-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* Card General Styling */
+.nivedan-motivation-card,
+.nivedan-commitment-card,
+.nivedan-section-card,
+.nivedan-submit-card {
+    background: rgba(17, 36, 66, 0.75);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    border-radius: 18px;
+    padding: 24px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.nivedan-section-card {
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.nivedan-section-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Section Legends & Titles */
+.card-title-legend {
+    font-size: 19px;
+    font-weight: 600;
+    color: #38BDF8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
+    margin-bottom: 8px;
+    float: none;
+    width: 100%;
+}
+
+.card-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #38BDF8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.card-icon {
+    font-size: 20px;
+}
+
+.section-instruction {
+    color: #AFC4DD;
+    font-size: 14px;
+    margin-bottom: 16px;
+    margin-top: 4px;
+}
+
+/* Motivation Card */
+.nivedan-motivation-card {
+    background: linear-gradient(135deg, rgba(18, 52, 91, 0.75), rgba(10, 30, 54, 0.85));
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.motivation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.motivation-badge {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #38BDF8;
+    background: rgba(56, 189, 248, 0.12);
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.quote-refresh-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #AFC4DD;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.25s ease;
+}
+
+.quote-refresh-btn:hover {
+    background: rgba(56, 189, 248, 0.2);
+    color: #38BDF8;
+    transform: rotate(180deg);
+}
+
+.motivation-blockquote {
+    margin: 0;
+    padding-left: 16px;
+    border-left: 3px solid #38BDF8;
+}
+
+.motivation-quote-text {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.6;
+    color: #EDF6FF;
+    margin-bottom: 8px;
+}
+
+.motivation-quote-author {
+    display: block;
+    font-size: 13px;
+    font-style: normal;
+    color: #38BDF8;
+    font-weight: 500;
+}
+
+/* Commitment Card */
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.status-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-achieved {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-missed {
+    background: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-info {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38BDF8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.commitment-text {
+    color: #D8E8FF;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.commitment-meta-info {
+    display: flex;
+    gap: 20px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(56, 189, 248, 0.2);
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.meta-label {
+    color: #AFC4DD;
+}
+
+.meta-val {
+    color: #38BDF8;
+    font-weight: 600;
+}
+
+/* Custom Radio Pill Selection */
+.radio-pill-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.radio-pill {
+    flex: 1;
+    max-width: 160px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.radio-pill input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-pill .pill-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: rgba(6, 20, 37, 0.7);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #AFC4DD;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    text-align: center;
+    min-height: 46px;
+}
+
+.radio-pill:hover .pill-btn {
+    border-color: rgba(56, 189, 248, 0.5);
+    color: #EDF6FF;
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.radio-pill input[type="radio"]:checked + .pill-btn {
+    background: linear-gradient(135deg, #3B82F6, #38BDF8);
+    border-color: #38BDF8;
+    color: #FFFFFF;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.35);
+}
+
+.radio-pill input[type="radio"]:focus-visible + .pill-btn {
+    outline: 2px solid #38BDF8;
+    outline-offset: 2px;
+}
+
+/* Inputs & Form Groups */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.input-label {
+    color: #D8E8FF;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.required-asterisk {
+    color: #EF4444;
+}
+
+.optional-tag {
+    color: #AFC4DD;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.nivedan-input,
+.nivedan-textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    background: rgba(6, 20, 37, 0.85);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #EDF6FF;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nivedan-input:focus,
+.nivedan-textarea:focus {
+    border-color: #38BDF8;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+}
+
+.nivedan-input::placeholder,
+.nivedan-textarea::placeholder {
+    color: rgba(175, 196, 221, 0.5);
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(0.8) sepia(100%) saturate(500%) hue-rotate(180deg);
+    cursor: pointer;
+}
+
+/* Input with Unit Styling */
+.input-unit-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-unit-wrapper .nivedan-input {
+    padding-right: 70px;
+}
+
+.input-unit {
+    position: absolute;
+    right: 14px;
+    color: #AFC4DD;
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* Sub-planning section inside Bhaavferi */
+.card-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25), transparent);
+    margin: 24px 0;
+}
+
+.sub-planning-section {
+    background: rgba(6, 20, 37, 0.4);
+    border: 1px dashed rgba(56, 189, 248, 0.25);
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 10px;
+}
+
+.sub-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #38BDF8;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sub-section-desc {
+    font-size: 13px;
+    color: #AFC4DD;
+    margin-bottom: 14px;
+}
+
+.form-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Conditional Field Animations */
+.conditional-field {
+    max-height: 200px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease, margin 0.3s ease;
+}
+
+.conditional-field.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    pointer-events: none;
+}
+
+/* Submit Card */
+.nivedan-submit-card {
+    text-align: center;
+    background: linear-gradient(180deg, rgba(17, 36, 66, 0.8), rgba(10, 30, 54, 0.9));
+}
+
+.submit-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.submit-hint-text {
+    font-size: 14px;
+    color: #AFC4DD;
+}
+
+.save-nivedan-btn {
+    min-width: 240px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #3B82F6, #38BDF8);
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
+    transition: all 0.3s ease;
+}
+
+.save-nivedan-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(56, 189, 248, 0.5);
+    background: linear-gradient(135deg, #2563EB, #0EA5E9);
+}
+
+.save-nivedan-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Mobile Responsive Rules */
+@media (max-width: 768px) {
+    .nivedan-header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-grid-2col {
+        grid-template-columns: 1fr;
+    }
+
+    .radio-pill {
+        max-width: none;
+    }
+
+    .nivedan-motivation-card,
+    .nivedan-commitment-card,
+    .nivedan-section-card,
+    .nivedan-submit-card {
+        padding: 18px;
+    }
+
+    .save-nivedan-btn {
+        width: 100%;
+    }
+
+    .toast-notification {
+        left: 16px;
+        right: 16px;
+        top: 16px;
+        justify-content: center;
+    }
+}
+```
+
+---
+
+### `js/nivedan.js`
+
+```javascript
+/**
+ * Introspect - Ek Prerna
+ * Daily Nivedan Module Controller
+ * Production Grade Vanilla JavaScript Implementation
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+    // --------------------------------------------------------
+    // 1. Initializations & Session Protection
+    // --------------------------------------------------------
+    initSessionDisplay();
+    initMobileNavigation();
+    initCurrentDateDisplay();
+    initMotivationCard();
+    initFormInteractions();
+    loadYesterdayCommitment();
+    loadTodayNivedanIfSaved();
+
+    // --------------------------------------------------------
+    // 2. Session Header Information
+    // --------------------------------------------------------
+    function initSessionDisplay() {
+        const usernameDisplay = document.getElementById("usernameDisplay");
+        const roleDisplay = document.getElementById("roleDisplay");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (typeof Session !== "undefined") {
+            if (usernameDisplay) {
+                usernameDisplay.textContent = Session.getUsername() || "User";
+            }
+            if (roleDisplay) {
+                const role = Session.getRole() || "user";
+                roleDisplay.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+            }
+        }
+
+        if (logoutBtn && typeof Session !== "undefined") {
+            logoutBtn.addEventListener("click", () => {
+                Session.logout();
+            });
+        }
+    }
+
+    // --------------------------------------------------------
+    // 3. Mobile Navigation Toggle
+    // --------------------------------------------------------
+    function initMobileNavigation() {
+        const menuToggleBtn = document.querySelector(".menu-toggle");
+        const sidebar = document.querySelector(".dashboard-sidebar");
+
+        if (menuToggleBtn && sidebar) {
+            menuToggleBtn.addEventListener("click", () => {
+                const isActive = sidebar.classList.toggle("active");
+                menuToggleBtn.setAttribute("aria-expanded", isActive ? "true" : "false");
+            });
+        }
+    }
+
+    // --------------------------------------------------------
+    // 4. Current Date Display
+    // --------------------------------------------------------
+    function initCurrentDateDisplay() {
+        const dateContainer = document.getElementById("currentDateDisplay");
+        if (dateContainer) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            dateContainer.textContent = "📆 " + now.toLocaleDateString('en-US', options);
+        }
+    }
+
+    // --------------------------------------------------------
+    // 5. Today's Motivation Quotes Engine
+    // --------------------------------------------------------
+    function initMotivationCard() {
+        const quotes = [
+            { text: "Har chhota satkarya bhi Prabhu karya ki disha me ek bada kadam hai.", author: " Swadhyay Prem" },
+            { text: "Atmachintan hi atmavikas ki pratham chabi hai.", author: " Swadhyay Chintan" },
+            { text: "Satkarya se man shuddh hota hai, aur shuddh man se prerna janmati hai.", author: " Prerna Vichar" },
+            { text: "Nishkam bhaav se kiya gaya karya prabhu ko prarthana jaisa swikaar hai.", author: " Ek Prerna" },
+            { text: "Niyamit sadhana aur bhaavferi se vyaktitva me divyata aati hai.", author: " Introspect Prerna" }
+        ];
+
+        const quoteElem = document.getElementById("motivationMessage");
+        const authorElem = document.getElementById("quoteAuthor");
+        const refreshBtn = document.getElementById("refreshQuoteBtn");
+
+        let currentIdx = 0;
+
+        function setQuote(idx) {
+            if (quoteElem && authorElem) {
+                quoteElem.style.opacity = '0';
+                setTimeout(() => {
+                    quoteElem.textContent = `"${quotes[idx].text}"`;
+                    authorElem.textContent = `—${quotes[idx].author}`;
+                    quoteElem.style.opacity = '1';
+                }, 200);
+            }
+        }
+
+        if (refreshBtn) {
+            refreshBtn.addEventListener("click", () => {
+                currentIdx = (currentIdx + 1) % quotes.length;
+                setQuote(currentIdx);
+            });
+        }
+    }
+
+    // --------------------------------------------------------
+    // 6. Dynamic Form Field Visibility & Interactions
+    // --------------------------------------------------------
+    function initFormInteractions() {
+        // Bhaavferi Toggles
+        const bhaavferiRadios = document.querySelectorAll('input[name="bhaavferi"]');
+        const bhaavferiHoursGroup = document.getElementById("bhaavferiHoursGroup");
+        const bhaavferiReasonGroup = document.getElementById("bhaavferiReasonGroup");
+        const bhaavferiHoursInput = document.getElementById("bhaavferiHours");
+
+        bhaavferiRadios.forEach(radio => {
+            radio.addEventListener("change", (e) => {
+                if (e.target.value === "yes") {
+                    bhaavferiHoursGroup.classList.remove("hidden");
+                    bhaavferiReasonGroup.classList.add("hidden");
+                    bhaavferiHoursInput.setAttribute("required", "required");
+                } else {
+                    bhaavferiHoursGroup.classList.add("hidden");
+                    bhaavferiReasonGroup.classList.remove("hidden");
+                    bhaavferiHoursInput.removeAttribute("required");
+                }
+            });
+        });
+
+        // Reading Toggles
+        setupSectionToggle('input[name="reading"]', "readingDurationGroup");
+
+        // Pravachan Toggles
+        setupSectionToggle('input[name="pravachan"]', "pravachanNotesGroup");
+
+        // Meeting Toggles
+        setupSectionToggle('input[name="meeting"]', "meetingNotesGroup");
+
+        // Kendra Toggles
+        setupSectionToggle('input[name="kendra"]', "kendraNotesGroup");
+
+        // Vrati Toggles
+        setupSectionToggle('input[name="vrati"]', "vratiNotesGroup");
+
+        // Default Future Planning Date setup (Tomorrow's Date as default)
+        const nextBhaavferiDateInput = document.getElementById("nextBhaavferiDate");
+        if (nextBhaavferiDateInput && !nextBhaavferiDateInput.value) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formattedDate = tomorrow.toISOString().split('T')[0];
+            nextBhaavferiDateInput.value = formattedDate;
+            nextBhaavferiDateInput.setAttribute("min", new Date().toISOString().split('T')[0]);
+        }
+
+        // Form Submit Handler
+        const nivedanForm = document.getElementById("nivedanForm");
+        if (nivedanForm) {
+            nivedanForm.addEventListener("submit", handleFormSubmission);
+        }
+    }
+
+    function setupSectionToggle(radioSelector, groupTargetId) {
+        const radios = document.querySelectorAll(radioSelector);
+        const groupElem = document.getElementById(groupTargetId);
+
+        radios.forEach(radio => {
+            radio.addEventListener("change", (e) => {
+                if (groupElem) {
+                    if (e.target.value === "yes") {
+                        groupElem.classList.remove("hidden");
+                    } else {
+                        groupElem.classList.add("hidden");
+                    }
+                }
+            });
+        });
+    }
+
+    // --------------------------------------------------------
+    // 7. Yesterday's Commitment Card Loader
+    // --------------------------------------------------------
+    function loadYesterdayCommitment() {
+        const statusText = document.getElementById("planningStatus");
+        const statusBadge = document.getElementById("commitmentStatusBadge");
+        const metaInfo = document.getElementById("commitmentMeta");
+        const dateVal = document.getElementById("commitmentDateVal");
+        const hoursVal = document.getElementById("commitmentHoursVal");
+
+        const storedCommitments = getLocalStorageItem("introspect_nivedan_commitments");
+        const todayStr = getTodayDateString();
+        const yesterdayStr = getYesterdayDateString();
+
+        if (!storedCommitments || Object.keys(storedCommitments).length === 0) {
+            if (statusText) statusText.textContent = "No previous planning commitment recorded.";
+            if (statusBadge) {
+                statusBadge.textContent = "No Commitment";
+                statusBadge.className = "status-pill status-info";
+            }
+            if (metaInfo) metaInfo.classList.add("hidden");
+            return;
+        }
+
+        // Check if there is a commitment targeting yesterday or today
+        let activeCommitment = storedCommitments[yesterdayStr] || storedCommitments[todayStr] || getLatestCommitment(storedCommitments);
+
+        if (activeCommitment) {
+            if (metaInfo) metaInfo.classList.remove("hidden");
+            if (dateVal) dateVal.textContent = activeCommitment.date;
+            if (hoursVal) hoursVal.textContent = `${activeCommitment.hours} Hrs`;
+
+            // Check if today's log already fulfilled it
+            const todayLog = getTodaySavedNivedan();
+            if (todayLog && todayLog.bhaavferi === "yes" && parseFloat(todayLog.bhaavferiHours) >= parseFloat(activeCommitment.hours)) {
+                if (statusText) statusText.textContent = `Achieved your goal of ${activeCommitment.hours} hours of Bhaavferi! Excellent effort!`;
+                if (statusBadge) {
+                    statusBadge.textContent = "Achieved";
+                    statusBadge.className = "status-pill status-achieved";
+                }
+            } else if (todayLog && todayLog.bhaavferi === "yes") {
+                if (statusText) statusText.textContent = `Completed ${todayLog.bhaavferiHours} hrs out of planned ${activeCommitment.hours} hrs. Keep striving!`;
+                if (statusBadge) {
+                    statusBadge.textContent = "Partial";
+                    statusBadge.className = "status-pill status-pending";
+                }
+            } else if (todayLog && todayLog.bhaavferi === "no") {
+                if (statusText) statusText.textContent = `Planned ${activeCommitment.hours} hrs for Bhaavferi, but was unable to complete. Reset for tomorrow!`;
+                if (statusBadge) {
+                    statusBadge.textContent = "Missed";
+                    statusBadge.className = "status-pill status-missed";
+                }
+            } else {
+                if (statusText) statusText.textContent = `Planned ${activeCommitment.hours} hrs for Bhaavferi on ${activeCommitment.date}. Fill today's record to update status.`;
+                if (statusBadge) {
+                    statusBadge.textContent = "Pending";
+                    statusBadge.className = "status-pill status-pending";
+                }
+            }
+        } else {
+            if (statusText) statusText.textContent = "No previous planning commitment set.";
+            if (statusBadge) {
+                statusBadge.textContent = "None";
+                statusBadge.className = "status-pill status-info";
+            }
+            if (metaInfo) metaInfo.classList.add("hidden");
+        }
+    }
+
+    function getLatestCommitment(commitmentsObj) {
+        const dates = Object.keys(commitmentsObj).sort();
+        return dates.length > 0 ? commitmentsObj[dates[dates.length - 1]] : null;
+    }
+
+    // --------------------------------------------------------
+    // 8. Pre-fill Today's Nivedan If Saved
+    // --------------------------------------------------------
+    function loadTodayNivedanIfSaved() {
+        const todayData = getTodaySavedNivedan();
+        if (!todayData) return;
+
+        // Bhaavferi
+        if (todayData.bhaavferi) {
+            const radio = document.querySelector(`input[name="bhaavferi"][value="${todayData.bhaavferi}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event("change"));
+            }
+        }
+        if (todayData.bhaavferiHours) {
+            const hrsInput = document.getElementById("bhaavferiHours");
+            if (hrsInput) hrsInput.value = todayData.bhaavferiHours;
+        }
+        if (todayData.bhaavferiReason) {
+            const reasonInput = document.getElementById("bhaavferiReason");
+            if (reasonInput) reasonInput.value = todayData.bhaavferiReason;
+        }
+        if (todayData.nextBhaavferiDate) {
+            const nextDate = document.getElementById("nextBhaavferiDate");
+            if (nextDate) nextDate.value = todayData.nextBhaavferiDate;
+        }
+        if (todayData.nextBhaavferiHours) {
+            const nextHours = document.getElementById("nextBhaavferiHours");
+            if (nextHours) nextHours.value = todayData.nextBhaavferiHours;
+        }
+
+        // Reading
+        setRadioAndGroup("reading", todayData.reading, "readingMinutes", todayData.readingMinutes);
+
+        // Pravachan
+        setRadioAndGroup("pravachan", todayData.pravachan, "pravachanNotes", todayData.pravachanNotes);
+
+        // Meeting
+        setRadioAndGroup("meeting", todayData.meeting, "meetingNotes", todayData.meetingNotes);
+
+        // Kendra
+        setRadioAndGroup("kendra", todayData.kendra, "kendraNotes", todayData.kendraNotes);
+
+        // Vrati
+        setRadioAndGroup("vrati", todayData.vrati, "vratiNotes", todayData.vratiNotes);
+
+        // Daily Reflection
+        if (todayData.dailyReflection) {
+            const refl = document.getElementById("dailyReflection");
+            if (refl) refl.value = todayData.dailyReflection;
+        }
+    }
+
+    function setRadioAndGroup(radioName, value, targetInputId, targetValue) {
+        if (value) {
+            const radio = document.querySelector(`input[name="${radioName}"][value="${value}"]`);
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event("change"));
+            }
+        }
+        if (targetValue && targetInputId) {
+            const elem = document.getElementById(targetInputId);
+            if (elem) elem.value = targetValue;
+        }
+    }
+
+    // --------------------------------------------------------
+    // 9. Form Submission & Validation Logic
+    // --------------------------------------------------------
+    function handleFormSubmission(e) {
+        e.preventDefault();
+
+        // Required Sections Check
+        const bhaavferiVal = getRadioValue("bhaavferi");
+        const readingVal = getRadioValue("reading");
+        const pravachanVal = getRadioValue("pravachan");
+        const meetingVal = getRadioValue("meeting");
+        const kendraVal = getRadioValue("kendra");
+        const vratiVal = getRadioValue("vrati");
+
+        if (!bhaavferiVal || !readingVal || !pravachanVal || !meetingVal || !kendraVal || !vratiVal) {
+            showToast("Please answer all required Yes/No activity questions.", "error");
+            return;
+        }
+
+        // Validate Bhaavferi hours if yes
+        const bhaavferiHours = document.getElementById("bhaavferiHours")?.value;
+        if (bhaavferiVal === "yes" && (!bhaavferiHours || parseFloat(bhaavferiHours) <= 0)) {
+            showToast("Please enter valid hours for Bhaavferi.", "error");
+            document.getElementById("bhaavferiHours")?.focus();
+            return;
+        }
+
+        // Build Payload
+        const nivedanPayload = {
+            date: getTodayDateString(),
+            timestamp: new Date().toISOString(),
+            user: typeof Session !== "undefined" ? Session.getUsername() : "Guest",
+            bhaavferi: bhaavferiVal,
+            bhaavferiHours: bhaavferiVal === "yes" ? bhaavferiHours : "0",
+            bhaavferiReason: document.getElementById("bhaavferiReason")?.value || "",
+            nextBhaavferiDate: document.getElementById("nextBhaavferiDate")?.value || "",
+            nextBhaavferiHours: document.getElementById("nextBhaavferiHours")?.value || "",
+            reading: readingVal,
+            readingMinutes: readingVal === "yes" ? (document.getElementById("readingMinutes")?.value || "0") : "0",
+            pravachan: pravachanVal,
+            pravachanNotes: document.getElementById("pravachanNotes")?.value || "",
+            meeting: meetingVal,
+            meetingNotes: document.getElementById("meetingNotes")?.value || "",
+            kendra: kendraVal,
+            kendraNotes: document.getElementById("kendraNotes")?.value || "",
+            vrati: vratiVal,
+            vratiNotes: document.getElementById("vratiNotes")?.value || "",
+            dailyReflection: document.getElementById("dailyReflection")?.value || ""
+        };
+
+        // Save Today's Nivedan
+        saveTodayNivedan(nivedanPayload);
+
+        // Save Future Commitment if set
+        if (nivedanPayload.nextBhaavferiDate && nivedanPayload.nextBhaavferiHours) {
+            saveFutureCommitment(nivedanPayload.nextBhaavferiDate, nivedanPayload.nextBhaavferiHours);
+        }
+
+        // Re-check yesterday's commitment status card
+        loadYesterdayCommitment();
+
+        // Toast Feedback & Smooth Scroll
+        showToast("🙏 Nivedan saved successfully!", "success");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function getRadioValue(name) {
+        const checkedRadio = document.querySelector(`input[name="${name}"]:checked`);
+        return checkedRadio ? checkedRadio.value : null;
+    }
+
+    // --------------------------------------------------------
+    // 10. LocalStorage Data Utilities
+    // --------------------------------------------------------
+    function saveTodayNivedan(data) {
+        // Save using NivedanStorage module if available
+        if (typeof NivedanStorage !== "undefined") {
+            NivedanStorage.save(data);
+        } else {
+            localStorage.setItem("introspect_nivedan", JSON.stringify(data));
+        }
+
+        // Also append to history map
+        let history = getLocalStorageItem("introspect_nivedan_history") || {};
+        history[data.date] = data;
+        localStorage.setItem("introspect_nivedan_history", JSON.stringify(history));
+    }
+
+    function saveFutureCommitment(targetDate, targetHours) {
+        let commitments = getLocalStorageItem("introspect_nivedan_commitments") || {};
+        commitments[targetDate] = {
+            date: targetDate,
+            hours: targetHours,
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem("introspect_nivedan_commitments", JSON.stringify(commitments));
+    }
+
+    function getTodaySavedNivedan() {
+        const todayStr = getTodayDateString();
+        const history = getLocalStorageItem("introspect_nivedan_history") || {};
+        if (history[todayStr]) return history[todayStr];
+
+        if (typeof NivedanStorage !== "undefined") {
+            const latest = NivedanStorage.load();
+            if (latest && latest.date === todayStr) return latest;
+        }
+
+        const fallback = getLocalStorageItem("introspect_nivedan");
+        if (fallback && fallback.date === todayStr) return fallback;
+
+        return null;
+    }
+
+    function getLocalStorageItem(key) {
+        try {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : null;
+        } catch (e) {
+            console.error("LocalStorage Parse Error for key:", key, e);
+            return null;
+        }
+    }
+
+    function getTodayDateString() {
+        return new Date().toISOString().split('T')[0];
+    }
+
+    function getYesterdayDateString() {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        return d.toISOString().split('T')[0];
+    }
+
+    // --------------------------------------------------------
+    // 11. Accessible Toast Notification System
+    // --------------------------------------------------------
+    function showToast(message, type = "success") {
+        const toast = document.getElementById("toastNotification");
+        const toastMessage = document.getElementById("toastMessage");
+        const toastIcon = document.getElementById("toastIcon");
+
+        if (!toast || !toastMessage) return;
+
+        toastMessage.textContent = message;
+        if (toastIcon) {
+            toastIcon.textContent = type === "success" ? "✓" : "✕";
+        }
+
+        toast.className = `toast-notification toast-${type}`;
+        
+        setTimeout(() => {
+            toast.classList.add("hidden");
+        }, 4000);
+    }
+});
+```
